@@ -1,0 +1,108 @@
+import orbalion.*
+
+describe "Checkpoint 1" {
+    const nucleosGravitacionales= new TecnologiasEspeciales(nombre="nucleosGravitacionales ",valorEnergetico=5,activa=true)
+    const camarasDeFusion= new TecnologiasEspeciales(nombre="nucleosGravitacionales ",valorEnergetico=5,activa=true)
+    const entrenador1 = new Entrenador(cantidadCiclosSolares = 6, estaEnSintonia = true, nivelDePrecision = 10, rol = guiaMental)
+    const entrenador2 = new Entrenador(cantidadCiclosSolares = 12, estaEnSintonia = true, nivelDePrecision = 90, rol = estrategaCuantico)
+
+    const luminico1= new Luminico(nombre="lumini",nivelEnergiaBase=20,nivelRadiacion=5000 ,entrenador=entrenador1,tecnologiasComplementarias=[],nombreDeCristales=["cristal1","cristal2","cristal3"])
+    const luminico2= new Luminico(nombre="lumini2",nivelEnergiaBase=20,nivelRadiacion=4000 ,entrenador=entrenador1,tecnologiasComplementarias=[],nombreDeCristales=["cristal1","cristal2","cristal3"])
+    const sintetico1= new Sintetico(nombre="Sinteti1",nivelEnergiaBase=20 ,entrenador=entrenador1,tecnologiasComplementarias=[],nivelProcesamiento=8,modulosActivos=6,estaCertificado=true)
+     const sintetico2= new Sintetico(nombre="Sinteti2",nivelEnergiaBase=20 ,entrenador=entrenador1,tecnologiasComplementarias=[nucleosGravitacionales,camarasDeFusion],nivelProcesamiento=8,modulosActivos=4,estaCertificado=true)
+    
+
+
+    test "Un entrenador no puede tener un rol distinto a los autorizados por la FOZ" {
+        assert.throwsExceptionWithMessage("Rol no homologado", { entrenador1.asignarRol(barrileteCosmico) })
+    }
+
+    test "Un equipo lumínico con radiación > 5000 y sin tecnologías activas → su energía total es su energía base"{
+        assert.equals(luminico1.nivelEnergiaBase(),luminico1.energiaTotal())
+    }
+    test"Un equipo lumínico con radiación < 5000 → obtiene el bono del 10%"{
+      assert.equals(22,luminico2.energiaTotal())  
+    }
+  
+   test "Un equipo sintético con 6 módulos → aplica correctamente la penalización del 20%"{
+        assert.equals(16,sintetico1.energiaTotal())
+    }
+    test "Un equipo sintético con 4 módulos y 2 tecnologías complementarias → suma correctamente los valores energéticos"{
+        assert.equals(30,sintetico2.energiaTotal())
+    }
+
+    
+}
+
+
+describe "Checkpoint 2 - Entrenadores de élite galáctica"{
+    const nucleosGravitacionales= new TecnologiasEspeciales(nombre="nucleosGravitacionales ",valorEnergetico=5,activa=true)
+    const camarasDeFusion= new TecnologiasEspeciales(nombre="nucleosGravitacionales ",valorEnergetico=5,activa=true)
+    const entrenador1 = new Entrenador(cantidadCiclosSolares = 6, estaEnSintonia = true, nivelDePrecision = 10, rol = guiaMental)
+    const entrenador2 = new Entrenador(cantidadCiclosSolares = 11, estaEnSintonia = false, nivelDePrecision = 90, rol = arquitectoDeEnergia)
+    const entrenador3 = new Entrenador(cantidadCiclosSolares = 12, estaEnSintonia = true, nivelDePrecision = 90, rol = estrategaCuantico)
+    const entrenador4 = new Entrenador(cantidadCiclosSolares = 15, estaEnSintonia = true, nivelDePrecision = 10, rol = guiaMental)
+    
+
+    const luminico1= new Luminico(nombre="lumini",nivelEnergiaBase=20,nivelRadiacion=5000 ,entrenador=entrenador1,tecnologiasComplementarias=[],nombreDeCristales=["cristal1","cristal2","cristal3"])
+    const luminico2= new Luminico(nombre="lumini2",nivelEnergiaBase=20,nivelRadiacion=4000 ,entrenador=entrenador1,tecnologiasComplementarias=[],nombreDeCristales=["cristal1","cristal2","cristal3"])
+    const sintetico1= new Sintetico(nombre="Sinteti1",nivelEnergiaBase=20 ,entrenador=entrenador1,tecnologiasComplementarias=[],nivelProcesamiento=8,modulosActivos=6,estaCertificado=true)
+     const sintetico2= new Sintetico(nombre="Sinteti2",nivelEnergiaBase=20 ,entrenador=entrenador1,tecnologiasComplementarias=[nucleosGravitacionales,camarasDeFusion],nivelProcesamiento=8,modulosActivos=4,estaCertificado=true)
+
+   test"Estratega cuántico con 12 ciclos y precisión 90 → es de élite galáctica"{
+    assert.that(entrenador3.esDeElite())
+
+   }
+    test"Arquitecto de energía con 11 ciclos pero sin sintonía → no es de élite"{
+    assert.notThat(entrenador2.esDeElite())
+
+   }
+    test"Guía mental con 15 ciclos → siempre es de élite"{
+    assert.that(entrenador4.esDeElite())
+
+   }
+
+}
+
+
+describe "Checkpoint 3 - Equipos de prestigio universal"{
+    const nucleosGravitacionales= new TecnologiasEspeciales(nombre="nucleosGravitacionales ",valorEnergetico=5,activa=true)
+    const camarasDeFusion= new TecnologiasEspeciales(nombre="nucleosGravitacionales ",valorEnergetico=5,activa=true)
+    const entrenador1 = new Entrenador(cantidadCiclosSolares = 12, estaEnSintonia = true, nivelDePrecision = 10, rol = guiaMental)
+    const luminico1= new Luminico(nombre="lumini",nivelEnergiaBase=20,nivelRadiacion=5000 ,entrenador=entrenador1,tecnologiasComplementarias=[nucleosGravitacionales],nombreDeCristales=["cristal1","cristal2","cristal3"])
+    
+    const sintetico1= new Sintetico(nombre="Sinteti1",nivelEnergiaBase=20 ,entrenador=entrenador1,tecnologiasComplementarias=[],nivelProcesamiento=8,modulosActivos=4,estaCertificado=true)
+     
+
+     test "Equipo lumínico con 3 cristales, entrenador de élite y una tecnología activa → es de prestigio universal" {
+        assert.that(luminico1.esDePrestigioUniversal())
+
+     }
+     test"Equipo sintético certificado con 4 módulos y todas las tecnologías activas → es de prestigio"{
+        assert.that(sintetico1.esDePrestigioUniversal())
+     }
+
+}
+
+describe "Checkpoint 4 - Equipos etéricos"{
+    const nucleosGravitacionales= new TecnologiasEspeciales(nombre="nucleosGravitacionales ",valorEnergetico=5,activa=true)
+    const camarasDeFusion= new TecnologiasEspeciales(nombre="nucleosGravitacionales ",valorEnergetico=5,activa=true)
+    const entrenador1 = new Entrenador(cantidadCiclosSolares = 12, estaEnSintonia = true, nivelDePrecision = 10, rol = guiaMental)
+    const eterico1= new Eterico(nombre="Eteri",nivelEnergiaBase=20,entrenador=entrenador1,tecnologiasComplementarias=[nucleosGravitacionales,camarasDeFusion] ,nivelDeFluctuacion=80, cantidadDePortales=3)
+    const eterico2= new Eterico(nombre="Eteri",nivelEnergiaBase=20,entrenador=entrenador1,tecnologiasComplementarias=[nucleosGravitacionales,camarasDeFusion] ,nivelDeFluctuacion=60, cantidadDePortales=3)
+    
+    
+
+     test "Equipo etérico con 3 portales, fluctuación 80 y 2 tecnologías activas → es de prestigio universal" {
+        assert.that(eterico1.esDePrestigioUniversal())
+     }
+     test "Verificar que el incremento del 15% se aplica correctamente"   {
+       assert.equals(34.5, eterico1.energiaTotal())
+     }
+     test"Verificar que un equipo etérico que no cumple las condiciones no suma el 15%" {
+       assert.equals(30, eterico2.energiaTotal())
+     }
+}
+
+
+
